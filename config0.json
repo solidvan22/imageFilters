@@ -1,0 +1,42 @@
+{
+    
+    "camsStack":[
+        {
+            "idCam"      : "cam001",
+            "idPredictor"   : "ssdD7",
+            "videoURL"   : "rtsp://localhost:8554/videosToStream/33.ts"
+        },
+        {
+            "idCam"         : "cam002",
+            "idPredictor"   : "ssdD7",
+            "videoURL"      : "rtsp://localhost:8554/videosToStream/44.ts"
+        },
+        {
+            "idCam"      : "cam003",
+            "idPredictor"   : "ssdD7",
+            "videoURL"   : "rtsp://localhost:8554/videosToStream/55.ts"
+        },
+        {
+            "idCam"      : "cam004",
+            "idPredictor"   : "ssdD7",
+            "videoURL"   : "rtsp://localhost:8554/videosToStream/66.ts"
+        }
+
+    ],
+    
+    "workers": [
+        {
+            "idPredictor": "ssdD7"
+        },
+        {
+            "idPredictor": "ssdD7"
+        },
+        {
+            "idPredictor": "ssdD81"
+        },
+        {
+            "idPredictor": "ssdD82"
+        }
+        
+    ]
+}

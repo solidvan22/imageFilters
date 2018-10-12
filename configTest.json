@@ -1,0 +1,28 @@
+{
+    "predictors":[
+        {
+
+            "classPredictor"    :"SSD7Predictor",
+            "modelPathWeights"  : "Z8ssd7_epoch-55_loss-0.3640_val_loss-0.5617.h5"
+        
+        },
+        {
+            "classPredictor"    :"SSD7Predictor",
+            "modelPathWeights"  : "Z6ssd7_epoch-48_loss-0.3788_val_loss-0.5409"
+        
+        }
+    ],
+    "camsStack":[
+       
+        {
+            "idCam"             : "cam004",
+            "predictorIndex"    : 1,
+            "videoURL"          : "rtsp://localhost:8554/videosToStream/25.ts"
+        }
+
+    ],
+    "workers":10
+    
+}
+       
+

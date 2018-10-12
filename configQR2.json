@@ -1,0 +1,71 @@
+{
+    "Caudal":"http://caudaldev.io:8070/event",
+    "Models":[
+      {
+        "name"   :"qr",
+        "weightsPath" :"weights/qr_epoch-19_loss-0.3394_val_loss-0.1732.h5",
+        "activate" :1
+      }
+    ],
+    "Queues":[
+      {
+        "name"  : "ssd7_qr_pred_in",
+        "depth" : 10
+      },
+      { 
+        "name"  : "qr_decoder_in",
+        "depth" : 10
+      },
+      {
+        "name"  : "qr_out",
+        "depth" : 10
+      }
+    ],
+    "Predictors":[
+        {
+          "name"              :"qr_pred",
+          "type"              :"ssd7",
+          "qIn"               :"ssd7_qr_pred_in",
+          "qOut"              :"qr_decoder_in",
+          "model"             :"qr",
+          "activate"          :1,
+          "img_height"        :270,
+          "img_width"         :480,
+          "class_threshold"   : {"1":100}
+        },
+        {
+          "name"      : "alpr1",
+          "type"      : "DataMatrixDecoder",
+          "qIn"       : "qr_decoder_in",
+          "qOut"      : "qr_out",
+          "clipsPath" : "data/clips/",
+          "vehicle_id": 1,
+          "plate_id"  : 3
+        }
+
+        
+    ],
+    "Cameras":[
+        {
+            "name"              : "2D6A21CA-E8F3-4990-9C85-E51A5BE45EE3",
+            "activate"          : 0,
+            "imageQ"            : "ssd7_qr_pred_in",
+            "videoURL"          : "/home/quantum/Documents/quantum/clients/gmodelo/streamServer/VIDS/20180815_16-37-02.mp4"
+        },
+        {
+          "name"              : "2D6A21CA-E8F3-4990-9C85-E51A5BE45EE3",
+          "activate"          : 1,
+          "imageQ"            : "ssd7_qr_pred_in",
+          "videoURL"          : "/home/quantum/Documents/quantum/clients/gmodelo/streamServer/VIDS/20180815_17-03-11.mp4"
+        },
+        {
+          "name"              : "2D6A21CA-E8F3-4990-9C85-E51A5BE45EE3",
+          "activate"          : 0,
+          "imageQ"            : "ssd7_qr_pred_in",
+          "videoURL"          : "/home/quantum/Projects/DATASETS/zacatecas/videos/pt/videos/CamPalL1/20180927_20340101004326_20340101010711_100153.mp4"
+        }
+
+
+      
+    ]
+}

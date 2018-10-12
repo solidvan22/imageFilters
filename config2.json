@@ -1,0 +1,100 @@
+{
+    "Caudal":"http://caudaldev.io:8070/event",
+    "Models":[
+      {
+        "name"   :"placas",
+        "weightsPath" :"weights/Z8ssd7_epoch-55_loss-0.3640_val_loss-0.5617.h5",
+        "activate" :1
+      },
+      {
+        "name"   :"top",
+        "weightsPath" :"weights/TOP-270x480-2_epoch-98_loss-0.8202_val_loss-0.6667.h5"
+      }
+    ],
+    "Queues":[
+      {
+        "name"  : "predictors_placas_in",
+        "depth" : 10
+      },
+      {
+        "name"  : "predictors_top_in",
+        "depth" : 10
+      },
+      {
+        "name"  : "predictors_placas_out",
+        "depth" : 10
+      },
+      {
+        "name"  : "plate_reader",
+        "depth" : 1
+      }
+    ],
+    "Predictors":[
+        {
+          "name"              :"placas_pred1",
+          "type"              :"ssd7",
+          "qIn"               :"predictors_placas_in",
+          "qOut"              :"predictors_placas_out",
+          "model"             :"placas",
+          "activate"          :1,
+          "img_height"        :300,
+          "img_width"         :480,
+          "class_threshold"   : {"1":90,"2":90,"3":90,"4":75,"5":15}
+        },
+        {
+          "name"              :"placas_pred2",
+          "type"              :"ssd7",
+          "qIn"               :"predictors_top_in",
+          "qOut"              :"predictors_placas_out",
+          "model"             :"top",
+          "img_height"        :270,
+          "activate"          :0,
+          "img_width"         :480,
+          "class_threshold"   : {"1":90,"2":90,"3":90,"4":75,"5":15}
+        },
+        {
+          "name"      : "alpr1",
+          "type"      : "alpr",
+          "qIn"       : "plate_reader",
+          "qOut"      : "predictors_placas_out",
+          "clipsPath" : "data/clips/"
+        }
+    ],
+    "Cameras":[
+        {
+            "name"               : "cam044",
+            "activate"          : 0,
+            "imageQ"            : "predictors_top_in",
+            "videoURL"          : "rtsp://admin:admin123@192.168.1.144:554/Streaming/Channels/1",
+            "skipMillis"        : 120000
+        },
+        {
+          "name"               : "cam043",
+          "activate"          : 1,
+          "imageQ"            : "predictors_placas_in",
+          "videoURL"          : "rtsp://admin:admin123@192.168.1.143:554/Streaming/Channels/1"
+        
+        },
+        {
+            "name"              : "cam002",
+            "activate"          : 0,
+            "imageQ"            : "predictors_placas_in",
+            "videoURL"          : "../../DATASETS/zacatecas/videos/placas/Video1.mp4",
+            "skipMillis"        : 120000
+        },
+        {
+            "name"              : "cam003",
+            "activate"          : 0,
+            "imageQ"            : "predictors_placas_in",
+            "videoURL"          : "../../DATASETS/zacatecas/videos/placas/30.ts",
+            "skipMillis"        : 120000
+        },
+        {
+            "name"              : "cam004",
+            "activate"          : 0,
+            "imageQ"            : "predictors_placas_in",
+            "videoURL"          : "../../DATASETS/zacatecas/videos/placas/25.ts",
+            "skipMillis"        : 120000
+        }
+    ]
+}

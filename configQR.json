@@ -1,0 +1,52 @@
+{
+    "Caudal":"http://caudaldev.io:8070/event",
+    "Models":[
+      {
+        "name"   :"qr",
+        "weightsPath" :"weights/qr_epoch-19_loss-0.3394_val_loss-0.1732.h5",
+        "activate" :1
+      }
+    ],
+    "Queues":[
+      {
+        "name"  : "predictors_qr_in",
+        "depth" : 10
+      },
+      {
+        "name"  : "predictors_placas_out",
+        "depth" : 10
+      }
+    ],
+    "Predictors":[
+        {
+          "name"              :"qr_pred",
+          "type"              :"ssd7",
+          "qIn"               :"predictors_qr_in",
+          "qOut"              :"predictors_placas_out",
+          "model"             :"qr",
+          "activate"          :1,
+          "img_height"        :270,
+          "img_width"         :480,
+          "class_threshold"   : {"1":100}
+        },
+        {
+          "name"      : "alpr1",
+          "type"      : "ALPRPredictor",
+          "qIn"       : "plate_reader",
+          "qOut"      : "predictors_placas_out",
+          "clipsPath" : "data/clips/",
+          "vehicle_id": 1,
+          "plate_id"  : 3
+        }
+
+
+    ],
+    "Cameras":[
+        {
+            "name"               : "camQR01",
+            "activate"          : 1,
+            "imageQ"            : "predictors_qr_in",
+            "videoURL"          : "/home/quantum/Documents/quantum/clients/gmodelo/streamServer/VIDS/20180815_16-37-02.mp4"
+        }
+    ]
+}

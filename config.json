@@ -1,0 +1,65 @@
+{
+    "Caudal":"http://caudaldev.io:8070/event",
+    "Models":[
+      {
+        "name"   :"placas",
+        "weightsPath" :"weights/Z8ssd7_epoch-55_loss-0.3640_val_loss-0.5617.h5"
+      }
+    ],
+    "Queues":[
+      {
+        "name"  : "predictors_placas_in",
+        "depth" : 1
+      },
+      {
+        "name"  : "predictors_placas_out",
+        "depth" : 1
+      },
+      {
+        "name"  : "plate_reader",
+        "depth" : 1
+      }
+    ],
+    "Predictors":[
+        {
+          "name"              :"placas_pred1",
+          "type"              :"ssd7",
+          "qIn"               :"predictors_placas_in",
+          "qOut"              :"plate_reader",
+          "model"             :"placas",
+          "img_height"        :300,
+          "img_width"         :480,
+          "class_threshold"   : {"1":90,"2":90,"3":90,"4":75,"5":15}
+        },
+        {
+          "name"      : "alpr1",
+          "type"      : "alpr",
+          "qIn"       : "plate_reader",
+          "qOut"      : "predictors_placas_out",
+          "clipsPath" : "data/clips/"
+        }
+    ],
+    "Cameras":[
+        {
+            "name"               : "cam001",
+            "activate"          : 1,
+            "imageQ"            : "predictors_placas_in",
+            "videoURL"          : "../../DATASETS/zacatecas/videos/placas/Video3.mp4",
+            "skipMillis"        : 120000
+        },
+        {
+            "name"              : "cam002",
+            "activate"          : 0,
+            "imageQ"            : "predictors_placas_in",
+            "videoURL"          : "../../DATASETS/zacatecas/videos/placas/Video1.mp4",
+            "skipMillis"        : 120000
+        },
+        {
+            "name"              : "cam003",
+            "activate"          : 0,
+            "imageQ"            : "predictors_placas_in",
+            "videoURL"          : "../../DATASETS/zacatecas/videos/placas/30.ts",
+            "skipMillis"        : 120000
+        }
+    ]
+}

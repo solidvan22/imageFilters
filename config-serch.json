@@ -1,0 +1,76 @@
+{
+    "Caudal":"http://caudaldev.io:8070/event",
+    "Models":[
+      {
+        "name"        :"placas270",
+        "weightsPath" :"weights/PLACA-270x480-crit-5_epoch-70_loss-0.3416_val_loss-0.3362.h5"
+      }
+    ],
+    "Queues":[
+      {
+        "name"  : "predictors_placas_in",
+        "depth" : 1
+      },
+      {
+        "name"  : "predictors_placas_in270",
+        "depth" : 1
+      },
+      {
+        "name"  : "predictors_placas_out",
+        "depth" : 1
+      },
+      {
+        "name"  : "plate_reader",
+        "depth" : 1
+      },
+      {
+        "name"  : "camera_error",
+        "depth" : 100
+      }
+
+    ],
+    "ErrorMgrs" : [
+      {
+        "name"      : "camara_error",
+        "type"      : "CaudalErrorMgr",
+        "qIn"       : "camera_error",
+        "url"       : "http://localhost:8070/event"
+      }
+
+    ],
+    "Predictors":[
+        {
+          "name"              :"placas_pred2",
+          "type"              :"SSD7Predictor",
+          "activate"          :1,
+          "qIn"               :"predictors_placas_in270",
+          "qOut"              :"plate_reader",
+          "model"             :"placas270",
+          "img_height"        :270,
+          "img_width"         :480,
+          "class_threshold"   : {"1":90,"2":70,"3":20,"4":99,"5":99}
+        },
+        {
+          "name"      : "alpr1",
+          "activate"  : 1,
+          "type"      : "ALPRPredictor",
+          "qIn"       : "plate_reader",
+          "qOut"      : "predictors_placas_out",
+          "clipsPath" : "data/clips/",
+          "vehicle_id": 1,
+          "plate_id"  : 3
+        }
+    ],
+    "Cameras":[
+      
+      {
+          "name"               : "F0531F7F-019C-4C80-A1C5-423318093F78",
+          "activate"          : 1,
+          "imageQ"            : "predictors_placas_in270",
+          "errQ"              : "camera_error",
+          "videoURL"          : "rtsp://admin:admin123@192.168.1.143:554/Streaming/Channels/1",
+          "fps"               : 1
+
+      }
+      ]
+}
