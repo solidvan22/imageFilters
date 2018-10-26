@@ -149,7 +149,7 @@ class DataMatrixDecoder:
         print("starting ..."+ self.name)
         if not self.running and self.thr==None:
             print("creando Thread")
-            self.thr = Thread(name=self.name+".helper",target=self._run, args=())
+            self.thr = Thread(name=self.name+".qr",target=self._run, args=())
             self.thr.daemon = True
             self.running = True
             self.thr.start()
