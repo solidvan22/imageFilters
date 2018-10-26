@@ -88,14 +88,16 @@ def main(configFile,param):
     cameras = VCS.buildCameras(queues,config["Cameras"])
 
     withImg = True if param=="manual" else False
+    print ("mostrando imagenes ?"  + str(withImg))
 
 
     outQ = queues["qr_out"]
     lastDataMatrixSent = ""
     n=0
     while 1:
+        print("Sacando elemento {}".format(n))
         component,cam,pred,img,ok = outQ.get()
-        #print("Sacando elemento {}".format(n))
+        
         n+=1
         objects = pred["objects"]
         dataMatrix = pred["dataMatrix"]
@@ -120,7 +122,7 @@ def main(configFile,param):
 
         if withImg:
           showPrediction(img,pred,scale=2)
-          cmdK = cv2.waitKey(20000) & 0xFF
+          cmdK = cv2.waitKey(10) & 0xFF
           if cmdK == ord("q"):
               print("Quiting...1")
               streamCams.stopAll()

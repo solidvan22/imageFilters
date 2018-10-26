@@ -3,22 +3,22 @@
     "Models":[
       {
         "name"   :"qr",
-        "weightsPath" :"weights/qr_epoch-19_loss-0.3394_val_loss-0.1732.h5",
+        "weightsPath" :"weights/ssd7-PT_52-270x480-51_loss-0.2276_val_loss-0.2941.h5",
         "activate" :1
       }
     ],
     "Queues":[
       {
         "name"  : "ssd7_qr_pred_in",
-        "depth" : 10
+        "depth" : 100
       },
       { 
         "name"  : "qr_decoder_in",
-        "depth" : 10
+        "depth" : 100
       },
       {
         "name"  : "qr_out",
-        "depth" : 10
+        "depth" : 100
       }
     ],
     "Predictors":[
@@ -31,7 +31,7 @@
           "activate"          :1,
           "img_height"        :270,
           "img_width"         :480,
-          "class_threshold"   : {"1":100}
+          "class_threshold"   : {"1":80, "2":80}
         },
         {
           "name"      : "alpr1",
@@ -56,7 +56,7 @@
           "name"              : "2D6A21CA-E8F3-4990-9C85-E51A5BE45EE3",
           "activate"          : 1,
           "imageQ"            : "ssd7_qr_pred_in",
-          "videoURL"          : "/home/quantum/Documents/quantum/clients/gmodelo/streamServer/VIDS/20180815_17-03-11.mp4"
+          "videoURL"          : "/home/serch/Projects/VIDEOS/PT/etiqueta3.mp4"
         },
         {
           "name"              : "2D6A21CA-E8F3-4990-9C85-E51A5BE45EE3",

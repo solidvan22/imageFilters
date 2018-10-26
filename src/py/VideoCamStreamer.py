@@ -58,15 +58,17 @@ class Cam:
         print (self.videoURL+" FRAMES POR SEGUNDO " + str(fps) + "  Every " + str(every) + " selfFPS " + str(self.fps))
         count =0
         while self.running:
+           
             ret, img = video.read()
             #strDateTime=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             #print("Camera: {}, read ret: {}, shape: ...".format(self.name,ret))
             #print("frame reading {}".format(count))
             if ret:
                 count += 1
+                
                 if count % every != 0:
                     continue
-
+                #print("puting element ..." + str(count))
                 self.outQ.put((self.name,img))
             # else:
             #     delayMiliSeconds =  1000
